@@ -1,45 +1,35 @@
-FROM 0x01be/base
+FROM 0x01be/openscad:build as build
 
-COPY --from=0x01be/eigen /opt/eigen/ /opt/eigen/
+FROM 0x01be/xpra
 
-ENV CMAKE_PREFIX_PATH=/opt/eigen \
-    REVISION=master
-RUN apk add --no-cache --virtual openscad-build-dependencies \
-    git \
-    build-base \
-    pkgconfig \
-    cmake \
-    bison \
-    flex \
-    libzip-dev \
-    libxml2-dev \
-     gmp-dev \
-    mpfr-dev \
-    imagemagick-dev \
-    double-conversion-dev\
-    boost-dev \
-    fontconfig-dev \
-    cairo-dev \
-    mesa-dev \
-    glew-dev \
-    harfbuzz-dev \
-    qt5-qtbase-dev \
-    qt5-qttools-dev \
-    qt5-qtdeclarative-dev \
-    qt5-qtmultimedia-dev &&\
+COPY --from=build /opt/openscad/ /opt/openscad/
+
+RUN apk add --no-cache --virtual openscad-runtime-dependencies \
+    libzip \
+    libxml2 \
+    gmp \
+    mpfr \
+    imagemagick \
+    double-conversion\
+    boost \
+    fontconfig \
+    cairo \
+    mesa \
+    glew \
+    harfbuzz \
+    qt5-qtbase \
+    qt5-qttools \
+    qt5-qtdeclarative \
+    qt5-qtmultimedia &&\
     apk add --no-cache --virtual openscad-edge-build-dependencies \
     --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing \
     --repository http://dl-cdn.alpinelinux.org/alpine/edge/community \
     --repository http://dl-cdn.alpinelinux.org/alpine/edge/main \
-    cgal-dev \
-    qscintilla-dev \
-    opencsg-dev \
-    lib3mf-dev &&\
-    git clone --recursive --branch ${REVISION} https://github.com/openscad/openscad.git /openscad
+    cgal \
+    qscintilla \
+    opencsg \
+    lib3mf
 
-WORKDIR /openscad/build
-RUN cmake \
-    -DCMAKE_INSTALL_PREFIX=/opt/openscad \
-    .. &&\
-    make
-
+USER ${USER}
+ENV PATH=${PATH}:/opt/openscad/bin \
+    COMMAND=openscad
