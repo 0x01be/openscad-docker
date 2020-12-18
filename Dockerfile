@@ -16,6 +16,7 @@ RUN apk add --no-cache --virtual openscad-runtime-dependencies \
     cairo \
     mesa \
     glew \
+    glu \
     harfbuzz \
     qt5-qtbase \
     qt5-qttools \
