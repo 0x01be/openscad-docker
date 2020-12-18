@@ -2,7 +2,7 @@ FROM 0x01be/openscad:build as build
 
 FROM 0x01be/xpra
 
-COPY --from=build /opt/openscad/ /opt/openscad/
+COPY --from=build /openscad/build/openscad /opt/openscad/bin/
 
 RUN apk add --no-cache --virtual openscad-runtime-dependencies \
     libzip \
