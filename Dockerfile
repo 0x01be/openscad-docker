@@ -13,7 +13,7 @@ RUN apk add --no-cache --virtual openscad-build-dependencies \
     flex \
     libzip-dev \
     libxml2-dev \
-     gmp-dev \
+    gmp-dev \
     mpfr-dev \
     imagemagick-dev \
     double-conversion-dev\
