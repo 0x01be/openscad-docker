@@ -42,5 +42,4 @@ RUN cmake \
     -DCMAKE_INSTALL_PREFIX=/opt/openscad \
     .. &&\
     make
-RUN make install
 
